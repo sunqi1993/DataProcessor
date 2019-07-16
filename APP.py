@@ -1,7 +1,7 @@
-from PyQt5.QtWidgets import QWidget,QApplication,QGraphicsScene
+#!python
+from PyQt5.QtWidgets import QWidget,QApplication
 from PyQt5.QtWidgets import *
 from PyQt5.Qt import QStandardPaths
-from PyQt5 import QtGui
 from Form import Ui_MainWindow
 from datetime import datetime
 from PyQt5.QtCore import pyqtSlot,QSettings
@@ -23,6 +23,7 @@ def process_data(file_path,out_file_dir=""):
     res.to_csv(out_file_name, sep=',', header=True, index=False)
     return os.path.abspath(out_file_name)
 
+
 #用于处理日志的模块
 class QPlainTextEditLogger(logging.Handler):
     def __init__(self, parent):
@@ -42,6 +43,7 @@ class MyForm(QMainWindow,Ui_MainWindow):
         self.btn2.clicked.connect(self.select_outDir)
         self.btn.clicked.connect(self.process)
         self.lineEdit_2.returnPressed.connect(self.LineEditEnter)
+        self.lineEdit.returnPressed.connect(self.LineEditEnter0)
 
         logTextBox=QPlainTextEditLogger(self)
         logTextBox.setFormatter(logging.Formatter('%(asctime)s - %(levelname)s - %(message)s'))
@@ -68,6 +70,11 @@ class MyForm(QMainWindow,Ui_MainWindow):
     def LineEditEnter(self):
         self.dirName=self.lineEdit_2.text()
         logging.info(f"选择输出文件目录：{self.dirName}")
+        return
+
+    def LineEditEnter0(self):
+        self.file_name=self.lineEdit.text()
+        logging.info(f"待处理文件路径：{self.file_name}")
         return
 
     @pyqtSlot(result=str)
@@ -109,6 +116,7 @@ class MyForm(QMainWindow,Ui_MainWindow):
 
         file=process_data(self.file_name,self.dirName)
         logging.info(f"文件处理结果已经写入到 {file}")
+
 if __name__ == '__main__':
     app = QApplication(sys.argv)
     demo =MyForm()

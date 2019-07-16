@@ -2,8 +2,9 @@
 import pandas as pd
 from datetime import  datetime
 import argparse
+import PyQt5 as qt
 print(pd.__version__)
-
+print(qt.__version__)
 def process_data(file_path,out_file_name=""):
     now=datetime.now()
     timeStr=now.strftime("_%Y-%m-%d_%H时%M分")
@@ -25,12 +26,12 @@ def parse_args():
 
 
 
-if __name__ == '__main__':
-    args = parse_args()
-    if args is None:
-        exit()
-
-    process_data(args.input_file,args.output)
+# if __name__ == '__main__':
+#     args = parse_args()
+#     if args is None:
+#         exit()
+#
+#     process_data(args.input_file,args.output)
 
 
 
